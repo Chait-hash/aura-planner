@@ -8,17 +8,30 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+import { AuthProvider } from "./contexts/AuthContext";
+import Dashboard from "./pages/Dashboard";
+import Leads from "./pages/Leads";
+import LeadDetail from "./pages/LeadDetail";
+import NewLead from "./pages/NewLead";
+import Auth from "./pages/Auth";
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/leads" element={<Leads />} />
+            <Route path="/leads/new" element={<NewLead />} />
+            <Route path="/leads/:id" element={<LeadDetail />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
