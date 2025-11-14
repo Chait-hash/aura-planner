@@ -19,8 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Card } from "@/components/ui/card";
 import { supabase } from "@/integrations/supabase/client";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, Filter } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface Lead {
@@ -34,12 +35,12 @@ interface Lead {
   created_at: string;
 }
 
-const STATUS_COLORS = {
-  new: "bg-blue-100 text-blue-800",
-  contacted: "bg-yellow-100 text-yellow-800",
-  qualified: "bg-green-100 text-green-800",
-  not_interested: "bg-red-100 text-red-800",
-  converted: "bg-cyan-100 text-cyan-800",
+const STATUS_VARIANTS: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+  new: "default",
+  contacted: "secondary",
+  qualified: "outline",
+  not_interested: "destructive",
+  converted: "default",
 };
 
 export default function Leads() {
@@ -129,6 +130,17 @@ export default function Leads() {
       month: "short",
       day: "numeric",
     });
+  };
+
+  const getStatusColor = (status: string) => {
+    const colors: Record<string, string> = {
+      new: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+      contacted: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+      qualified: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+      not_interested: "bg-red-500/10 text-red-500 border-red-500/20",
+      converted: "bg-cyan-500/10 text-cyan-500 border-cyan-500/20",
+    };
+    return colors[status] || colors.new;
   };
 
   return (
@@ -225,10 +237,9 @@ export default function Leads() {
                       {lead.source.replace("_", " ")}
                     </TableCell>
                     <TableCell>
-                      <Badge
-                        className={
-                          STATUS_COLORS[lead.status as keyof typeof STATUS_COLORS]
-                        }
+                      <Badge 
+                        variant="outline"
+                        className={`capitalize ${getStatusColor(lead.status)}`}
                       >
                         {lead.status.replace("_", " ")}
                       </Badge>

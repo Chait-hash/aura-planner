@@ -71,11 +71,13 @@ export default {
         md: "var(--shadow-md)",
         lg: "var(--shadow-lg)",
         accent: "var(--shadow-accent)",
+        glow: "var(--shadow-glow)",
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
         "gradient-accent": "var(--gradient-accent)",
         "gradient-hero": "var(--gradient-hero)",
+        "gradient-card": "var(--gradient-card)",
       },
       borderRadius: {
         lg: "var(--radius)",
